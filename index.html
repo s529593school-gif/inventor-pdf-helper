@@ -86,16 +86,42 @@
         <div class="empty-card" id="empty-card" hidden><span class="empty-icon" aria-hidden="true">⌕</span><h3>No exact catalog match yet</h3><p>We searched your local PDF and the starter catalog. Add a mapping below or try another part number.</p><button class="button button-secondary" type="button" id="show-mapping-button">Add this part to your catalog</button></div>
       </section>
 
-      <section class="howto-section" aria-labelledby="howto-title">
+      <section class="howto-section" id="how-to-use" aria-labelledby="howto-title">
         <div class="section-heading"><div><p class="eyebrow">USE IT IN INVENTOR</p><h2 id="howto-title">Run the rule in Inventor 2025</h2></div></div>
+        <h3>Part A: Run the rule</h3>
         <ol class="howto-list">
-          <li>Open a <strong>part</strong> (or assembly) in Inventor.</li>
-          <li>Go to the <strong>Manage</strong> tab, then <strong>iLogic</strong> &rarr; <strong>Add Rule</strong>. Name it and select <strong>OK</strong>.</li>
-          <li>Select everything in the editor, delete it, and paste the code from <strong>Copy code</strong>. Select <strong>Save</strong>.</li>
-          <li>Right-click the rule in the iLogic browser and choose <strong>Run Rule</strong>. The listed user parameters are created or updated (see <strong>Parameters</strong> in the Manage tab).</li>
-          <li>Prefer a file? Use <strong>Download .iLogicVb</strong>, then in the iLogic browser choose <strong>Add External Rule</strong> and pick the file.</li>
+          <li>On this page, search for your lesson number and select <strong>Copy code</strong>.</li>
+          <li>In Inventor, open the <strong>part</strong> you are working on (or create a new one with <strong>New → Standard (mm).ipt</strong>).</li>
+          <li>Select the <strong>Manage</strong> tab, then in the <strong>iLogic</strong> panel select <strong>Add Rule</strong>.</li>
+          <li>Type a name such as <strong>Lesson20</strong> and select <strong>OK</strong>. The rule editor opens.</li>
+          <li>Click inside the editor, press <strong>Ctrl+A</strong> to select any template text, then press <strong>Ctrl+V</strong> to paste the copied code.</li>
+          <li>Select <strong>Save</strong>. If you see <strong>Save &amp; Run</strong>, you can use that instead.</li>
+          <li>To run it: open the <strong>iLogic</strong> tab in the model browser (or Manage → <strong>iLogic Browser</strong>), right-click your rule, and choose <strong>Run Rule</strong>.</li>
         </ol>
-        <p class="helper-text">These rules set the named parameters only. They do not draw the sketches or features. Build the geometry in Inventor, then link dimensions to the parameters (for example, type <code>baseRadius</code> into a dimension field).</p>
+        <h3>Part B: Check that it worked</h3>
+        <ol class="howto-list">
+          <li>Select <strong>Manage → Parameters</strong>.</li>
+          <li>Look under <strong>User Parameters</strong>. You should see the names from the code, for example <code>baseRadius</code> and <code>centerHoleDiameter</code>, with their values.</li>
+          <li>To change a value, edit the number in the rule (for example <code>"20 mm"</code> to <code>"25 mm"</code>) and run the rule again, or edit it directly in the Parameters dialog.</li>
+        </ol>
+        <h3>Part C: Use the parameters in your model</h3>
+        <ol class="howto-list">
+          <li>Create a sketch and add a dimension, or double-click an existing dimension.</li>
+          <li>In the value box, type the parameter name instead of a number, for example <code>baseRadius</code>, and press Enter. You can also select the <strong>fx</strong> button and pick it from the list.</li>
+          <li>Repeat for the other dimensions. Changing a parameter now updates the model.</li>
+        </ol>
+        <p class="helper-text"><strong>Important:</strong> these rules only create or update parameters. They do not draw sketches or features, so you still build the geometry yourself.</p>
+        <h3>Option: use a downloaded file</h3>
+        <ol class="howto-list">
+          <li>Select <strong>Download .iLogicVb</strong> and save the file somewhere you will keep it.</li>
+          <li>In the iLogic browser, right-click <strong>External Rules</strong> and choose <strong>Add External Rule</strong>, then pick the file.</li>
+        </ol>
+        <h3>If something goes wrong</h3>
+        <ul class="howto-list">
+          <li><strong>"Open an Inventor part or assembly…"</strong>: the active window is a drawing or nothing is open. Click into your part and run it again.</li>
+          <li><strong>A syntax or compile error</strong>: make sure you replaced all the template text and pasted the whole rule. If it still fails, copy the exact error message and ask for help.</li>
+          <li><strong>A parameter was not created</strong>: check that a model parameter does not already use that name in <strong>Manage → Parameters</strong>.</li>
+        </ul>
       </section>
 
       <section class="catalog-section" aria-labelledby="catalog-title">

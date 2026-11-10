@@ -8,3 +8,4 @@
 .howto-list { margin: 1rem 0; padding-left: 1.4rem; line-height: 1.7; }
 .howto-list li { margin-bottom: .4rem; }
 .howto-section code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: rgba(127,127,127,.18); padding: .05rem .35rem; border-radius: 4px; }
+.howto-section h3 { font-size: 18px; margin: 1.6rem 0 .3rem; }

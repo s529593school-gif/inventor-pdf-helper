@@ -15,10 +15,7 @@ Inventor Code Finder is a free, static GitHub Pages website for Autodesk Invento
 
 ## Use a rule in Inventor 2025
 
-1. Open a part or assembly.
-2. **Manage → iLogic → Add Rule**, name it, delete the template text, paste the copied code, and Save.
-3. Right-click the rule and choose **Run Rule**. Check **Manage → Parameters** for the user parameters.
-4. Or download the `.iLogicVb` file and use **Add External Rule** in the iLogic browser.
+The page has a full step-by-step guide (section **Run the rule in Inventor 2025**). In short: copy the code, then in Inventor use **Manage → iLogic → Add Rule**, paste, Save, and Run Rule from the iLogic browser. Check **Manage → Parameters** for the results.
 
 ## Run locally
 

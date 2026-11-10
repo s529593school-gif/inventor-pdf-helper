@@ -41,6 +41,13 @@
               <input id="pdf-input" type="file" accept="application/pdf,.pdf" />
               <span class="upload-icon" aria-hidden="true">↑</span><strong>Drop a PDF here</strong><span>or <u>browse your files</u></span><small id="file-status">No file selected · PDF only</small>
             </label>
+            <div class="source-row">
+              <label for="source-select">Or choose a bundled lesson pack</label>
+              <select id="source-select">
+                <option value="">Choose a PDF source…</option>
+                <option value="assets/inventor-lessons-1-50.pdf">Inventor / SolidWorks lessons 1–50 (103 pages)</option>
+              </select>
+            </div>
             <div class="progress-wrap" id="progress-wrap" hidden><div class="progress-label"><span id="progress-label">Reading PDF…</span><span id="progress-value">0%</span></div><div class="progress-track"><span id="progress-bar"></span></div></div>
             <p class="helper-text" id="pdf-message" role="status">PDF extraction uses the open-source PDF.js library loaded in your browser.</p>
           </article>
@@ -50,6 +57,22 @@
             <form id="search-form" class="search-form"><label for="part-number">Part number</label><div class="search-input-wrap"><span aria-hidden="true">#</span><input id="part-number" name="part-number" inputmode="numeric" pattern="[0-9]+" placeholder="e.g. 15" autocomplete="off" /><button type="submit" class="search-button">Search <span aria-hidden="true">→</span></button></div></form>
             <p class="helper-text" id="search-message" role="status">Search the sample catalog or your extracted PDF text.</p>
           </article>
+        </div>
+      </section>
+
+      <section class="pdf-preview-section" id="pdf-preview-section" aria-labelledby="preview-title" hidden>
+        <div class="section-heading">
+          <div><p class="eyebrow">VISUAL REFERENCE</p><h2 id="preview-title">Inspect the lesson sheet</h2></div>
+          <span class="privacy-note">Images and dimensions stay on this device</span>
+        </div>
+        <div class="pdf-preview-card">
+          <div class="preview-toolbar">
+            <button class="button button-secondary" id="previous-page" type="button">← Previous</button>
+            <span>Page <strong id="preview-page-number">1</strong> of <strong id="preview-page-count">—</strong></span>
+            <button class="button button-secondary" id="next-page" type="button">Next →</button>
+          </div>
+          <div class="canvas-wrap"><canvas id="pdf-canvas" aria-label="Rendered PDF lesson page"></canvas></div>
+          <p class="helper-text">Use the page controls to zoom in through your browser or inspect drawings and dimensions that are embedded as images.</p>
         </div>
       </section>
 

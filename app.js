@@ -57,6 +57,8 @@ iLogicVb.UpdateWhenDone = True` },
 const STORAGE_KEY = "inventor-code-finder-mappings";
 let mappings = loadMappings();
 let pdfText = "";
+let pdfDocument = null;
+let currentPdfPage = 1;
 let activeMapping = mappings.find((mapping) => mapping.number === "15") || mappings[0];
 const $ = (selector) => document.querySelector(selector);
 const partInput = $("#part-number");
@@ -75,6 +77,9 @@ const progressWrap = $("#progress-wrap");
 const progressBar = $("#progress-bar");
 const progressLabel = $("#progress-label");
 const progressValue = $("#progress-value");
+const sourceSelect = $("#source-select");
+const previewSection = $("#pdf-preview-section");
+const pdfCanvas = $("#pdf-canvas");
 
 function loadMappings() {
   try {
@@ -112,22 +117,52 @@ async function extractPdf(file) {
   fileInput.disabled = true; updateProgress(5, "Loading PDF engine…");
   try {
     const pdfjs = await import("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs");
-    const document = await pdfjs.getDocument({ data: await file.arrayBuffer() }).promise; const pages = [];
-    for (let pageNumber = 1; pageNumber <= document.numPages; pageNumber += 1) {
-      const page = await document.getPage(pageNumber); const content = await page.getTextContent(); pages.push(content.items.map((item) => item.str).join(" "));
-      updateProgress(Math.round((pageNumber / document.numPages) * 100), `Reading page ${pageNumber} of ${document.numPages}…`);
+    pdfDocument = await pdfjs.getDocument({ data: await file.arrayBuffer() }).promise; const pages = [];
+    for (let pageNumber = 1; pageNumber <= pdfDocument.numPages; pageNumber += 1) {
+      const page = await pdfDocument.getPage(pageNumber); const content = await page.getTextContent(); pages.push(content.items.map((item) => item.str).join(" "));
+      updateProgress(Math.round((pageNumber / pdfDocument.numPages) * 100), `Reading page ${pageNumber} of ${pdfDocument.numPages}…`);
     }
-    pdfText = pages.join("\n"); $("#file-status").textContent = `${file.name} · ${document.numPages} page${document.numPages === 1 ? "" : "s"}`;
+    pdfText = pages.join("\n"); $("#file-status").textContent = `${file.name} · ${pdfDocument.numPages} page${pdfDocument.numPages === 1 ? "" : "s"}`;
     pdfMessage.textContent = `PDF loaded locally. Search can now flag part numbers found in ${file.name}.`; updateProgress(100, "PDF ready");
+    $("#preview-page-count").textContent = pdfDocument.numPages;
+    currentPdfPage = 1;
+    previewSection.hidden = false;
+    await renderPdfPage(currentPdfPage);
   } catch (error) { console.error(error); pdfMessage.textContent = "This PDF could not be read in the browser. You can still use the built-in catalog."; progressWrap.hidden = true; }
   finally { fileInput.disabled = false; }
+}
+async function renderPdfPage(pageNumber) {
+  if (!pdfDocument) return;
+  const page = await pdfDocument.getPage(pageNumber);
+  const viewport = page.getViewport({ scale: 1.35 });
+  const context = pdfCanvas.getContext("2d");
+  pdfCanvas.width = viewport.width;
+  pdfCanvas.height = viewport.height;
+  await page.render({ canvasContext: context, viewport }).promise;
+  $("#preview-page-number").textContent = pageNumber;
+  $("#previous-page").disabled = pageNumber <= 1;
+  $("#next-page").disabled = pageNumber >= pdfDocument.numPages;
 }
 $("#search-form").addEventListener("submit", (event) => { event.preventDefault(); searchPart(partInput.value); });
 document.querySelectorAll(".inline-example").forEach((button) => button.addEventListener("click", () => searchPart(button.dataset.example)));
 fileInput.addEventListener("change", () => extractPdf(fileInput.files[0]));
+sourceSelect.addEventListener("change", async () => {
+  if (!sourceSelect.value) return;
+  try {
+    const response = await fetch(sourceSelect.value);
+    if (!response.ok) throw new Error(`Could not load bundled PDF (${response.status})`);
+    const blob = await response.blob();
+    await extractPdf(new File([blob], "inventor-lessons-1-50.pdf", { type: "application/pdf" }));
+  } catch (error) {
+    console.error(error);
+    pdfMessage.textContent = "The bundled lesson pack could not be loaded. Try refreshing the page.";
+  }
+});
 ["dragenter", "dragover"].forEach((eventName) => dropzone.addEventListener(eventName, (event) => { event.preventDefault(); dropzone.classList.add("is-dragging"); }));
 ["dragleave", "drop"].forEach((eventName) => dropzone.addEventListener(eventName, (event) => { event.preventDefault(); dropzone.classList.remove("is-dragging"); }));
 dropzone.addEventListener("drop", (event) => extractPdf(event.dataTransfer.files[0]));
+$("#previous-page").addEventListener("click", () => { if (currentPdfPage > 1) { currentPdfPage -= 1; renderPdfPage(currentPdfPage); } });
+$("#next-page").addEventListener("click", () => { if (pdfDocument && currentPdfPage < pdfDocument.numPages) { currentPdfPage += 1; renderPdfPage(currentPdfPage); } });
 $("#copy-button").addEventListener("click", async () => { try { await navigator.clipboard.writeText(activeMapping.code); $("#copy-button").innerHTML = "<span aria-hidden=\"true\">✓</span> Copied"; setTimeout(() => { $("#copy-button").innerHTML = "<span aria-hidden=\"true\">▣</span> Copy code"; }, 1600); } catch { $("#search-message").textContent = "Copy is unavailable here; select the code manually."; } });
 $("#download-button").addEventListener("click", () => { const blob = new Blob([activeMapping.code], { type: "text/plain;charset=utf-8" }); const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = `inventor-part-${activeMapping.number}.vb`; link.click(); URL.revokeObjectURL(link.href); });
 $("#show-all-button").addEventListener("click", (event) => { const showingAll = event.currentTarget.dataset.all === "true"; renderCatalog(!showingAll); event.currentTarget.dataset.all = String(!showingAll); event.currentTarget.innerHTML = !showingAll ? "Show fewer <span aria-hidden=\"true\">↑</span>" : "View all <span aria-hidden=\"true\">→</span>"; });

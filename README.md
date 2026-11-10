@@ -8,6 +8,7 @@ Inventor Code Finder is a free, static GitHub Pages website for Autodesk Invento
 - There is no backend, API key, account, or AI generation step.
 - PDF text extraction helps confirm that a part number appears in an assignment. The built-in catalog (and mappings added by the user) supplies the actual code.
 - The bundled `assets/inventor-lessons-1-50.pdf` pack can be selected from the page. It includes rendered-page navigation so image-based drawings and dimensions can be inspected visually; image-only dimensions are not automatically OCR'd.
+- Lessons 20–30 from the supplied packet are included as dimensioned iLogic workflow starters. They set the key named parameters and document the recommended Inventor commands; they do not automatically create every sketch/feature in an arbitrary part file.
 - The sample code is a starting point. Review parameters and feature names before running any iLogic rule in Inventor.
 - Custom mappings are stored in the browser's `localStorage` and are private to that browser/profile.
 

@@ -28,7 +28,7 @@
           <p class="hero-intro">Upload your assignment PDF, enter a part number, and get a documented iLogic / VB.NET workflow starter. Your file never leaves this device.</p>
           <div class="hero-stats" aria-label="App highlights"><span><strong>01</strong> Local PDF search</span><span><strong>02</strong> Built-in examples</span><span><strong>03</strong> Copy or download</span></div>
         </div>
-        <div class="hero-orbit" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit-dot"></div><div class="orbit-card"><span>PART</span><strong>15</strong><small>READY TO USE</small></div></div>
+        <div class="hero-orbit" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit-dot"></div><div class="orbit-card"><span>PART</span><strong>20</strong><small>READY TO USE</small></div></div>
       </section>
 
       <section class="workspace" aria-labelledby="workspace-title">
@@ -53,8 +53,8 @@
           </article>
           <article class="panel search-panel">
             <div class="panel-number">02</div>
-            <div class="panel-title-row"><div><h3>Enter a part number</h3><p>Try <button class="inline-example" type="button" data-example="15">15</button>, 42, or any number from your PDF.</p></div><span class="panel-icon" aria-hidden="true">⌕</span></div>
-            <form id="search-form" class="search-form"><label for="part-number">Part number</label><div class="search-input-wrap"><span aria-hidden="true">#</span><input id="part-number" name="part-number" inputmode="numeric" pattern="[0-9]+" placeholder="e.g. 15" autocomplete="off" /><button type="submit" class="search-button">Search <span aria-hidden="true">→</span></button></div></form>
+            <div class="panel-title-row"><div><h3>Enter a part number</h3><p>Try <button class="inline-example" type="button" data-example="20">20</button>, 25, or any lesson number from your PDF.</p></div><span class="panel-icon" aria-hidden="true">⌕</span></div>
+            <form id="search-form" class="search-form"><label for="part-number">Part number</label><div class="search-input-wrap"><span aria-hidden="true">#</span><input id="part-number" name="part-number" inputmode="numeric" pattern="[0-9]+" placeholder="e.g. 20" autocomplete="off" /><button type="submit" class="search-button">Search <span aria-hidden="true">→</span></button></div></form>
             <p class="helper-text" id="search-message" role="status">Search the sample catalog or your extracted PDF text.</p>
           </article>
         </div>
@@ -77,13 +77,25 @@
       </section>
 
       <section class="result-section" id="result-section" aria-labelledby="result-title">
-        <div class="section-heading result-heading"><div><p class="eyebrow">MATCHED RESULT</p><h2 id="result-title">Part <span id="result-number">15</span></h2></div><span class="match-badge" id="match-badge">CATALOG MATCH</span></div>
+        <div class="section-heading result-heading"><div><p class="eyebrow">MATCHED RESULT</p><h2 id="result-title">Part <span id="result-number">20</span></h2></div><span class="match-badge" id="match-badge">CATALOG MATCH</span></div>
         <div class="result-card" id="result-card">
-          <div class="result-meta"><div><span class="result-label">ASSIGNMENT STEP</span><h3 id="result-name">Create a centered rectangular slot</h3></div><div class="result-actions"><button class="button button-secondary" id="copy-button" type="button"><span aria-hidden="true">▣</span> Copy code</button><button class="button button-primary" id="download-button" type="button"><span aria-hidden="true">↓</span> Download .vb</button></div></div>
-          <div class="code-shell"><div class="code-toolbar"><span><span class="language-dot"></span> iLogic / VB.NET</span><span id="code-lines">14 lines</span></div><pre><code id="code-output"></code></pre></div>
+          <div class="result-meta"><div><span class="result-label">ASSIGNMENT STEP</span><h3 id="result-name">Rounded Base with Raised Supports</h3></div><div class="result-actions"><button class="button button-secondary" id="copy-button" type="button"><span aria-hidden="true">▣</span> Copy code</button><button class="button button-primary" id="download-button" type="button"><span aria-hidden="true">↓</span> Download .iLogicVb</button><button class="button button-secondary" id="download-vb-button" type="button">.vb</button></div></div>
+          <div class="code-shell"><div class="code-toolbar"><span><span class="language-dot"></span> iLogic / VB.NET</span><span id="code-lines">0 lines</span></div><pre><code id="code-output"></code></pre></div>
           <div class="result-footer"><span id="result-source">From the built-in starter catalog</span><span class="tip"><strong>Important:</strong> review the rule against your model before running it.</span></div>
         </div>
         <div class="empty-card" id="empty-card" hidden><span class="empty-icon" aria-hidden="true">⌕</span><h3>No exact catalog match yet</h3><p>We searched your local PDF and the starter catalog. Add a mapping below or try another part number.</p><button class="button button-secondary" type="button" id="show-mapping-button">Add this part to your catalog</button></div>
+      </section>
+
+      <section class="howto-section" aria-labelledby="howto-title">
+        <div class="section-heading"><div><p class="eyebrow">USE IT IN INVENTOR</p><h2 id="howto-title">Run the rule in Inventor 2025</h2></div></div>
+        <ol class="howto-list">
+          <li>Open a <strong>part</strong> (or assembly) in Inventor.</li>
+          <li>Go to the <strong>Manage</strong> tab, then <strong>iLogic</strong> &rarr; <strong>Add Rule</strong>. Name it and select <strong>OK</strong>.</li>
+          <li>Select everything in the editor, delete it, and paste the code from <strong>Copy code</strong>. Select <strong>Save</strong>.</li>
+          <li>Right-click the rule in the iLogic browser and choose <strong>Run Rule</strong>. The listed user parameters are created or updated (see <strong>Parameters</strong> in the Manage tab).</li>
+          <li>Prefer a file? Use <strong>Download .iLogicVb</strong>, then in the iLogic browser choose <strong>Add External Rule</strong> and pick the file.</li>
+        </ol>
+        <p class="helper-text">These rules set the named parameters only. They do not draw the sketches or features. Build the geometry in Inventor, then link dimensions to the parameters (for example, type <code>baseRadius</code> into a dimension field).</p>
       </section>
 
       <section class="catalog-section" aria-labelledby="catalog-title">

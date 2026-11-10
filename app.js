@@ -117,6 +117,7 @@ async function extractPdf(file) {
   fileInput.disabled = true; updateProgress(5, "Loading PDF engine…");
   try {
     const pdfjs = await import("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs");
+    pdfjs.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.mjs";
     pdfDocument = await pdfjs.getDocument({ data: await file.arrayBuffer() }).promise; const pages = [];
     for (let pageNumber = 1; pageNumber <= pdfDocument.numPages; pageNumber += 1) {
       const page = await pdfDocument.getPage(pageNumber); const content = await page.getTextContent(); pages.push(content.items.map((item) => item.str).join(" "));

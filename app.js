@@ -269,6 +269,36 @@ const sourceSelect = $("#source-select");
 const previewSection = $("#pdf-preview-section");
 const pdfCanvas = $("#pdf-canvas");
 
+function makeValidLessonCode(mapping) {
+  if (!/^(2[0-9]|30)$/.test(mapping.number)) return mapping.code;
+  const sourceLines = mapping.code.split("\n");
+  const firstAssignment = sourceLines.findIndex((line) => /Parameter\("([^"]+)"\)\s*=/.test(line));
+  const prefix = sourceLines.slice(0, firstAssignment).join("\n");
+  const parameterLines = mapping.code.match(/Parameter\("([^"]+)"\)\s*=\s*([A-Za-z0-9_]+)/g) || [];
+  const replacements = parameterLines.map((line) => line.replace(/Parameter\("([^"]+)"\)\s*=\s*([A-Za-z0-9_]+)/, 'SetOrCreate("$1", $2)')).join("\n");
+  return `${prefix}
+
+' This rule creates or updates the named user parameters used below.
+' It does not invent sketch geometry; build the documented features in the model first.
+If ThisApplication.ActiveDocument.DocumentType <> kPartDocumentObject Then
+    MessageBox.Show("Open an Inventor part document before running this rule.", "Inventor Code Finder")
+    Return
+End If
+
+${replacements}
+
+Sub SetOrCreate(name As String, value As Double)
+    Dim userParams = ThisApplication.ActiveDocument.ComponentDefinition.Parameters.UserParameters
+    Try
+        userParams.Item(name).Expression = value.ToString(System.Globalization.CultureInfo.InvariantCulture) & " mm"
+    Catch
+        userParams.AddByExpression(name, value.ToString(System.Globalization.CultureInfo.InvariantCulture) & " mm", "mm")
+    End Try
+End Sub
+
+iLogicVb.UpdateWhenDone = True`;
+}
+
 async function loadPdfJs() {
   if (window.pdfjsLib) return window.pdfjsLib;
   await new Promise((resolve, reject) => {
@@ -285,9 +315,11 @@ async function loadPdfJs() {
 function loadMappings() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
-    if (!Array.isArray(saved)) return DEFAULT_MAPPINGS;
-    return [...DEFAULT_MAPPINGS.filter((item) => !saved.some((savedItem) => savedItem.number === item.number)), ...saved];
-  } catch { return DEFAULT_MAPPINGS; }
+    const base = Array.isArray(saved)
+      ? [...DEFAULT_MAPPINGS.filter((item) => !saved.some((savedItem) => savedItem.number === item.number)), ...saved]
+      : DEFAULT_MAPPINGS;
+    return base.map((item) => ({ ...item, code: makeValidLessonCode(item) }));
+  } catch { return DEFAULT_MAPPINGS.map((item) => ({ ...item, code: makeValidLessonCode(item) })); }
 }
 function saveMappings() { localStorage.setItem(STORAGE_KEY, JSON.stringify(mappings)); }
 function escapeHtml(value) { return String(value).replace(/[&<>"']/g, (character) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;" }[character])); }

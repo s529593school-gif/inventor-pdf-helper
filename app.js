@@ -107,7 +107,8 @@ function searchPart(number) {
 }
 function updateProgress(value, label) { progressWrap.hidden = false; progressBar.style.width = `${value}%`; progressValue.textContent = `${value}%`; progressLabel.textContent = label; }
 async function extractPdf(file) {
-  if (!file || file.type !== "application/pdf") { pdfMessage.textContent = "Please choose a PDF file."; return; }
+  const isPdf = file && (file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf"));
+  if (!isPdf) { pdfMessage.textContent = "Please choose a PDF file."; return; }
   fileInput.disabled = true; updateProgress(5, "Loading PDF engine…");
   try {
     const pdfjs = await import("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs");

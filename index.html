@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#111827" />
+    <meta name="description" content="A private, browser-only search tool for Autodesk Inventor 2025 schoolwork." />
+    <title>Inventor Code Finder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Inventor Code Finder home">
+        <span class="brand-mark" aria-hidden="true">⌁</span>
+        <span><strong>Inventor Code Finder</strong><small>Schoolwork companion</small></span>
+      </a>
+      <span class="privacy-pill"><span aria-hidden="true">●</span> Runs in your browser</span>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <p class="eyebrow">AUTODESK INVENTOR 2025</p>
+          <h1 id="page-title">Find the right code<br /><em>without the guesswork.</em></h1>
+          <p class="hero-intro">Upload your assignment PDF, enter a part number, and copy a ready-to-use iLogic / VB.NET starting point. Your file never leaves this device.</p>
+          <div class="hero-stats" aria-label="App highlights"><span><strong>01</strong> Local PDF search</span><span><strong>02</strong> Built-in examples</span><span><strong>03</strong> Copy or download</span></div>
+        </div>
+        <div class="hero-orbit" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit-dot"></div><div class="orbit-card"><span>PART</span><strong>15</strong><small>READY TO USE</small></div></div>
+      </section>
+
+      <section class="workspace" aria-labelledby="workspace-title">
+        <div class="section-heading"><div><p class="eyebrow">YOUR WORKSPACE</p><h2 id="workspace-title">Search your assignment</h2></div><p class="privacy-note"><span aria-hidden="true">▣</span> PDF text is processed locally</p></div>
+        <div class="workspace-grid">
+          <article class="panel upload-panel">
+            <div class="panel-number">01</div>
+            <div class="panel-title-row"><div><h3>Load a PDF</h3><p>Optional: make the catalog smarter with your own assignment sheet.</p></div><span class="panel-icon" aria-hidden="true">↥</span></div>
+            <label class="dropzone" id="dropzone" for="pdf-input">
+              <input id="pdf-input" type="file" accept="application/pdf,.pdf" />
+              <span class="upload-icon" aria-hidden="true">↑</span><strong>Drop a PDF here</strong><span>or <u>browse your files</u></span><small id="file-status">No file selected · PDF only</small>
+            </label>
+            <div class="progress-wrap" id="progress-wrap" hidden><div class="progress-label"><span id="progress-label">Reading PDF…</span><span id="progress-value">0%</span></div><div class="progress-track"><span id="progress-bar"></span></div></div>
+            <p class="helper-text" id="pdf-message" role="status">PDF extraction uses the open-source PDF.js library loaded in your browser.</p>
+          </article>
+          <article class="panel search-panel">
+            <div class="panel-number">02</div>
+            <div class="panel-title-row"><div><h3>Enter a part number</h3><p>Try <button class="inline-example" type="button" data-example="15">15</button>, 42, or any number from your PDF.</p></div><span class="panel-icon" aria-hidden="true">⌕</span></div>
+            <form id="search-form" class="search-form"><label for="part-number">Part number</label><div class="search-input-wrap"><span aria-hidden="true">#</span><input id="part-number" name="part-number" inputmode="numeric" pattern="[0-9]+" placeholder="e.g. 15" autocomplete="off" /><button type="submit" class="search-button">Search <span aria-hidden="true">→</span></button></div></form>
+            <p class="helper-text" id="search-message" role="status">Search the sample catalog or your extracted PDF text.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="result-section" id="result-section" aria-labelledby="result-title">
+        <div class="section-heading result-heading"><div><p class="eyebrow">MATCHED RESULT</p><h2 id="result-title">Part <span id="result-number">15</span></h2></div><span class="match-badge" id="match-badge">CATALOG MATCH</span></div>
+        <div class="result-card" id="result-card">
+          <div class="result-meta"><div><span class="result-label">ASSIGNMENT STEP</span><h3 id="result-name">Create a centered rectangular slot</h3></div><div class="result-actions"><button class="button button-secondary" id="copy-button" type="button"><span aria-hidden="true">▣</span> Copy code</button><button class="button button-primary" id="download-button" type="button"><span aria-hidden="true">↓</span> Download .vb</button></div></div>
+          <div class="code-shell"><div class="code-toolbar"><span><span class="language-dot"></span> iLogic / VB.NET</span><span id="code-lines">14 lines</span></div><pre><code id="code-output"></code></pre></div>
+          <div class="result-footer"><span id="result-source">From the built-in starter catalog</span><span class="tip"><strong>Tip:</strong> paste this into an Inventor iLogic rule, then adjust dimensions.</span></div>
+        </div>
+        <div class="empty-card" id="empty-card" hidden><span class="empty-icon" aria-hidden="true">⌕</span><h3>No exact catalog match yet</h3><p>We searched your local PDF and the starter catalog. Add a mapping below or try another part number.</p><button class="button button-secondary" type="button" id="show-mapping-button">Add this part to your catalog</button></div>
+      </section>
+
+      <section class="catalog-section" aria-labelledby="catalog-title">
+        <div class="section-heading"><div><p class="eyebrow">YOUR CATALOG</p><h2 id="catalog-title">Starter mappings</h2></div><button class="text-button" type="button" id="show-all-button">View all <span aria-hidden="true">→</span></button></div>
+        <div class="catalog-grid" id="catalog-grid"></div>
+      </section>
+
+      <section class="mapping-section" id="mapping-section" aria-labelledby="mapping-title" hidden>
+        <div class="section-heading"><div><p class="eyebrow">EXTEND THE CATALOG</p><h2 id="mapping-title">Add a part mapping</h2></div><button class="text-button" type="button" id="hide-mapping-button">Close <span aria-hidden="true">×</span></button></div>
+        <form class="mapping-form" id="mapping-form">
+          <label>Part number <input id="mapping-number" required inputmode="numeric" pattern="[0-9]+" placeholder="e.g. 88" /></label>
+          <label>Step name <input id="mapping-name" required placeholder="e.g. Add a fillet" /></label>
+          <label class="mapping-code-label">iLogic / VB.NET code<textarea id="mapping-code" required rows="8" placeholder="Parameter(&quot;d0&quot;) = 10"></textarea></label>
+          <div class="mapping-actions"><button class="button button-primary" type="submit">Save mapping</button><span id="mapping-message" role="status"></span></div>
+        </form>
+      </section>
+    </main>
+    <footer class="site-footer"><p><strong>Inventor Code Finder</strong> is a student-built, browser-only helper. Always review code before running it in Inventor.</p><p><a href="https://github.com/s529593school-gif/inventor-pdf-helper" target="_blank" rel="noreferrer">View on GitHub ↗</a></p></footer>
+    <script src="app.js" type="module"></script>
+  </body>
+</html>

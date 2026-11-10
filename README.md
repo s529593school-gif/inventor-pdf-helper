@@ -1,0 +1,33 @@
+# Inventor Code Finder
+
+Inventor Code Finder is a free, static GitHub Pages website for Autodesk Inventor 2025 schoolwork. Students can search a built-in catalog of iLogic / VB.NET examples, upload an assignment PDF for local text extraction, copy code, download a `.vb` file, and add their own mappings.
+
+## Privacy and limitations
+
+- PDFs are read in the browser with [PDF.js](https://mozilla.github.io/pdf.js/); no file is uploaded to a server.
+- There is no backend, API key, account, or AI generation step.
+- PDF text extraction helps confirm that a part number appears in an assignment. The built-in catalog (and mappings added by the user) supplies the actual code.
+- The sample code is a starting point. Review parameters and feature names before running any iLogic rule in Inventor.
+- Custom mappings are stored in the browser's `localStorage` and are private to that browser/profile.
+
+## Run locally
+
+```bash
+python3 -m http.server 8000
+```
+
+Open <http://localhost:8000>.
+
+## Deploy to GitHub Pages
+
+1. Push this repository to GitHub.
+2. Open **Settings → Pages**.
+3. Under **Build and deployment**, choose **Deploy from a branch**.
+4. Choose `main` and the `/ (root)` folder, then select **Save**.
+5. Open the Pages URL shown in settings after publishing completes.
+
+The site is plain HTML, CSS, and JavaScript, so no build command or secret configuration is required.
+
+## Add catalog mappings
+
+Use **Add a part mapping** in the page for a local addition. For shared starter mappings, edit `DEFAULT_MAPPINGS` in `app.js`, then commit and redeploy.
